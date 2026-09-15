@@ -5,7 +5,7 @@
 [![Streamlit](https://img.shields.io/badge/Streamlit-Live-FF4B4B?logo=streamlit&logoColor=white)](https://dashboard-moedas-knpghpvcpwq8das8j7nqsq.streamlit.app/)
 [![BCB API](https://img.shields.io/badge/API-BCB-blue)](https://www.bcb.gov.br/)
 
-> Uma solução de Engenharia e Análise de Dados com execução automatizada em ambiente cloud. O projeto contém um pipeline automatizado de extração (ETL) conectado à API oficial do Banco Central do Brasil e um dashboard web interativo publicado com previsões estatísticas integradas.
+> Uma solução de Engenharia e Análise de Dados com execução automatizada em ambiente cloud. O projeto contém um pipeline automatizado de extração (ETL) conectado à API oficial do Banco Central do Brasil e um dashboard web interativo publicado com projeções estatísticas integradas.
 
 ## 🌐 Acesse o Projeto Publicado
 O dashboard está online e pode ser acessado publicamente através do link abaixo:
@@ -15,7 +15,23 @@ O dashboard está online e pode ser acessado publicamente através do link abaix
 
 ## 🏗️ Arquitetura do Projeto na Nuvem
 
-O ecossistema funciona de forma totalmente serverless (sem depender de nenhuma máquina local) e é dividido em três pilares principais:
+O ecossistema utiliza serviços cloud para automação, processamento e publicação dos dados, sendo dividido em três pilares principais:
+
+```mermaid
+flowchart LR
+    A["🏦 Banco Central do Brasil<br/>BCB API / OData"]
+    B["🐍 Python ETL<br/>script_extracao.py"]
+    C["📊 Data Layer<br/>historico_moedas.csv"]
+    D["⚙️ GitHub Actions<br/>Cron / Automation"]
+    E["☁️ Streamlit Cloud<br/>app.py"]
+    F["👤 Usuário<br/>Dashboard Interativo"]
+
+    A -->|"Dados de câmbio"| B
+    B -->|"Limpeza e transformação"| C
+    D -->|"Execução diária"| B
+    C -->|"Dados atualizados"| E
+    E -->|"Visualização"| F
+```
 
 1. **Pipeline de Extração (`script_extracao.py`):** Script em Python que consome a API OData do Banco Central, coleta o histórico das moedas (**USD, EUR, AUD, GBP, SGD**) desde 2024, realiza a limpeza de dados, padroniza as colunas e exporta as informações com codificação correta (`utf-8-sig`).
 2. **Orquestração e Automação (GitHub Actions):** Um workflow configurado via arquivo YAML (`main.yml`) que provisiona automaticamente um runner Linux **todos os dias às 19:00h (Horário de Brasília)**. Ele executa o script de extração, captura os novos dados do dia e commita a atualização diretamente no repositório.
@@ -37,13 +53,13 @@ O ecossistema funciona de forma totalmente serverless (sem depender de nenhuma m
 ## 🚀 Como Executar o Projeto Localmente
 
 ### 📋 Pré-requisitos
-Certifique-se de ter o **Python 3.8 ou superior** instalado em sua máquina.
+Certifique-se de ter uma versão compatível do **Python 3** instalada em sua máquina.
 
 ### 🔧 Passo a Passo
 
 1. **Clone o repositório:**
    ```bash
-   git clone https://github.com
+   git clone https://github.com/GuilhermeMezleveckas96/dashboard-moedas.git
    cd dashboard-moedas
    ```
 
@@ -77,7 +93,7 @@ O arquivo `historico_moedas.csv` mantido pelo pipeline segue a seguinte estrutur
 | `Data_Consulta` | Date | Data da cotação oficial obtida da API | `2026-09-15` |
 | `Hora_Consulta` | Time | Horário exato formatado (HH:MM:SS) | `13:05:42` |
 | `Ano_Mes` | String | Agrupamento de período temporal (Ano-Mês) | `2026-09` |
-| `Moeda_Codigo`| String | Sigla internacional de identification (3 letras) | `USD` |
+| `Moeda_Codigo` | String | Sigla internacional de identificação (3 letras) | `USD` |
 | `Moeda_Nome` | String | Nome amigável da moeda tratado com acentuação | `Dólar` |
 | `Preco_Compra` | Float | Cotação oficial de compra da moeda em BRL | `5.1234` |
 | `Preco_Venda` | Float | Cotação oficial de venda da moeda em BRL | `5.1240` |
