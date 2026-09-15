@@ -8,7 +8,7 @@
 
 ## 🌐 Acesse o Projeto Publicado
 O dashboard está online, em produção, e pode ser acessado publicamente através do link abaixo:
-👉 **[Visualizar o Dashboard de Moedas em Produção](https://dashboard-moedas-knpghpvcpwq8das8j7nqsq.streamlit.app/)**
+👉 **[Visualizar o Dashboard de Moedas em Produção](https://streamlit.app)**
 
 ---
 
@@ -26,8 +26,8 @@ O ecossistema funciona de forma totalmente serverless (sem depender de nenhuma m
 
 * **[GitHub Actions](https://github.com):** Orquestração, agendamento de tarefas (Cron job) e execução do pipeline CI/CD.
 * **[Streamlit Cloud](https://streamlit.io):** Hospedagem, deploy e publicação da aplicação servida ao usuário final.
-* **[Requests](https://requests.readthedocs.io):** Consumo seguro e manipulação de requisições HTTP na API REST/OData do Banco Central.
-* **[Pandas](https://pandas.pydata.org):** Limpeza, transformação, enriquecimento e manipulação de séries temporais.
+* **[Requests](https://readthedocs.io):** Consumo seguro e manipulação de requisições HTTP na API REST/OData do Banco Central.
+* **[Pandas](https://pydata.org):** Limpeza, transformação, enriquecimento e manipulação de séries temporais.
 * **[Plotly Express](https://plotly.com):** Construção de gráficos dinâmicos, interativos e responsivos.
 * **[NumPy](https://numpy.org):** Execução de cálculos estatísticos de ajuste polinomial (`polyfit`) para as projeções de tendência.
 
@@ -76,7 +76,7 @@ O arquivo `historico_moedas.csv` mantido pelo pipeline segue a seguinte estrutur
 | `Data_Consulta` | Date | Data da cotação oficial obtida da API | `2026-09-15` |
 | `Hora_Consulta` | Time | Horário exato formatado (HH:MM:SS) | `13:05:42` |
 | `Ano_Mes` | String | Agrupamento de período temporal (Ano-Mês) | `2026-09` |
-| `Moeda_Codigo`| String | Sigla internacional de identificação (3 letras) | `USD` |
+| `Moeda_Codigo`| String | Sigla internacional de identification (3 letras) | `USD` |
 | `Moeda_Nome` | String | Nome amigável da moeda tratado com acentuação | `Dólar` |
 | `Preco_Compra` | Float | Cotação oficial de compra da moeda em BRL | `5.1234` |
 | `Preco_Venda` | Float | Cotação oficial de venda da moeda em BRL | `5.1240` |
