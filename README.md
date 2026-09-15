@@ -2,7 +2,7 @@
 
 ![GitHub Actions Workflow Status](https://shields.io)
 ![Python Version](https://shields.io)
-![Streamlit](https://shields.io)
+[[![Streamlit](https://shields.io)](https://guilhermemezleveckas96-dashboard-moedas-app.streamlit.app)](https://guilhermemezleveckas96-dashboard-moedas-app.streamlit.app)
 
 > Uma solução completa e moderna de Engenharia e Análise de Dados desenvolvida 100% na nuvem. O projeto contém um pipeline automatizado de extração (ETL) conectado à API oficial do Banco Central do Brasil e um dashboard web interativo publicado com previsões estatísticas integradas.
 
