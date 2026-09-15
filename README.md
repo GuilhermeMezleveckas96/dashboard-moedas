@@ -1,5 +1,6 @@
 # 📈 Dashboard & Pipeline de Câmbio BCB (Banco Central do Brasil)
 
+![GitHub Actions Workflow Status](https://shields.io)
 ![Python Version](https://shields.io)
 ![Streamlit](https://shields.io)
 
