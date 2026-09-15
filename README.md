@@ -5,7 +5,7 @@
 [![Streamlit](https://img.shields.io/badge/Streamlit-Live-FF4B4B?logo=streamlit&logoColor=white)](https://dashboard-moedas-knpghpvcpwq8das8j7nqsq.streamlit.app/)
 [![BCB API](https://img.shields.io/badge/API-BCB-blue)](https://www.bcb.gov.br/)
 
-> Uma solução completa e moderna de Engenharia e Análise de Dados desenvolvida 100% na nuvem. O projeto contém um pipeline automatizado de extração (ETL) conectado à API oficial do Banco Central do Brasil e um dashboard web interativo publicado com previsões estatísticas integradas.
+> Uma solução de Engenharia e Análise de Dados com execução automatizada em ambiente cloud. O projeto contém um pipeline automatizado de extração (ETL) conectado à API oficial do Banco Central do Brasil e um dashboard web interativo publicado com previsões estatísticas integradas.
 
 ## 🌐 Acesse o Projeto Publicado
 O dashboard está online e pode ser acessado publicamente através do link abaixo:
@@ -18,7 +18,7 @@ O dashboard está online e pode ser acessado publicamente através do link abaix
 O ecossistema funciona de forma totalmente serverless (sem depender de nenhuma máquina local) e é dividido em três pilares principais:
 
 1. **Pipeline de Extração (`script_extracao.py`):** Script em Python que consome a API OData do Banco Central, coleta o histórico das moedas (**USD, EUR, AUD, GBP, SGD**) desde 2024, realiza a limpeza de dados, padroniza as colunas e exporta as informações com codificação correta (`utf-8-sig`).
-2. **Orquestração e Automação (GitHub Actions):** Um robô configurado via arquivo YAML (`main.yml`) que liga um servidor Linux de forma automática **todos os dias às 19:00h (Horário de Brasília)**. Ele executa o script de extração, captura os novos dados do dia e commita a atualização diretamente no repositório.
+2. **Orquestração e Automação (GitHub Actions):** Um workflow configurado via arquivo YAML (`main.yml`) que provisiona automaticamente um runner Linux **todos os dias às 19:00h (Horário de Brasília)**. Ele executa o script de extração, captura os novos dados do dia e commita a atualização diretamente no repositório.
 3. **Dashboard Interativo (`app.py`):** Interface web desenvolvida em Streamlit que lê a base de dados atualizada diretamente do GitHub, renderiza gráficos de linhas interativos via **Plotly**, exibe métricas de variação e calcula uma linha de tendência (Regressão Linear via NumPy) para projetar o preço dos próximos 5 dias úteis.
 
 ---
@@ -27,8 +27,8 @@ O ecossistema funciona de forma totalmente serverless (sem depender de nenhuma m
 
 * **[GitHub Actions](https://github.com):** Orquestração, agendamento de tarefas (Cron job) e execução do pipeline CI/CD.
 * **[Streamlit Cloud](https://streamlit.io):** Hospedagem, deploy e publicação da aplicação servida ao usuário final.
-* **[Requests](https://readthedocs.io):** Consumo seguro e manipulação de requisições HTTP na API REST/OData do Banco Central.
-* **[Pandas](https://pydata.org):** Limpeza, transformação, enriquecimento e manipulação de séries temporais.
+* **[Requests](https://requests.readthedocs.io/):** Consumo seguro e manipulação de requisições HTTP na API REST/OData do Banco Central.
+* **[Pandas](https://pandas.pydata.org/):** Limpeza, transformação, enriquecimento e manipulação de séries temporais.
 * **[Plotly Express](https://plotly.com):** Construção de gráficos dinâmicos, interativos e responsivos.
 * **[NumPy](https://numpy.org):** Execução de cálculos estatísticos de ajuste polinomial (`polyfit`) para as projeções de tendência.
 
