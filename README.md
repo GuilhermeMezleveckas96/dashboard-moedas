@@ -1,9 +1,6 @@
 # 📈 Dashboard & Pipeline de Câmbio BCB (Banco Central do Brasil)
 
-![GitHub Actions Workflow Status](https://shields.io)
-
 ![Python Version](https://shields.io)
-
 ![Streamlit](https://shields.io)
 
 > Uma solução completa e moderna de Engenharia e Análise de Dados desenvolvida 100% na nuvem. O projeto contém um pipeline automatizado de extração (ETL) conectado à API oficial do Banco Central do Brasil e um dashboard web interativo publicado com previsões estatísticas integradas.
