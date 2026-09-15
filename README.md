@@ -7,8 +7,8 @@
 > Uma solução completa e moderna de Engenharia e Análise de Dados desenvolvida 100% na nuvem. O projeto contém um pipeline automatizado de extração (ETL) conectado à API oficial do Banco Central do Brasil e um dashboard web interativo publicado com previsões estatísticas integradas.
 
 ## 🌐 Acesse o Projeto Publicado
-O dashboard está online, em produção, e pode ser acessado publicamente através do link abaixo:
-👉 **[Visualizar o Dashboard de Moedas em Produção](https://streamlit.app)**
+O dashboard está online e pode ser acessado publicamente através do link abaixo:
+👉 **[Visualizar o Dashboard de Moedas em Produção](https://dashboard-moedas-knpghpvcpwq8das8j7nqsq.streamlit.app/)**
 
 ---
 
