@@ -4,7 +4,7 @@ on:
   schedule:
     # Roda todos os dias às 22:00 UTC (19:00 no horário de Brasília)
     - cron: '0 22 * * *'
-  workflow_dispatch: # Permite que você clique num botão para rodar manualmente sempre que quiser
+  workflow_dispatch: # Permite rodar manualmente pelo botão
 
 jobs:
   build:
@@ -12,10 +12,10 @@ jobs:
 
     steps:
     - name: Checkout do repositorio
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Configurar o Python no servidor
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
