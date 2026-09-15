@@ -1,30 +1,35 @@
 # 📈 Dashboard & Pipeline de Câmbio BCB (Banco Central do Brasil)
 
-> Uma solução completa de Engenharia e Análise de Dados. O projeto contém um pipeline automatizado de extração (ETL) conectado à API oficial do Banco Central do Brasil e um dashboard web interativo publicado em produção com previsões estatísticas integradas.
+![GitHub Actions Workflow Status](https://shields.io)
+![Python Version](https://shields.io)
+![Streamlit](https://shields.io)
+
+> Uma solução completa e moderna de Engenharia e Análise de Dados desenvolvida 100% na nuvem. O projeto contém um pipeline automatizado de extração (ETL) conectado à API oficial do Banco Central do Brasil e um dashboard web interativo publicado com previsões estatísticas integradas.
 
 ## 🌐 Acesse o Projeto Publicado
-O dashboard está online e pode ser acessado por qualquer pessoa através do link abaixo:
-👉 **[Clique aqui para visualizar o Dashboard em Produção](https://dashboard-moedas-knpghpvcpwq8das8j7nqsq.streamlit.app/)]**
+O dashboard está online, em produção, e pode ser acessado publicamente através do link abaixo:
+👉 **[Visualizar o Dashboard de Moedas em Produção](https://dashboard-moedas-knpghpvcpwq8das8j7nqsq.streamlit.app/)**
 
 ---
 
-## 🏗️ Arquitetura do Projeto
+## 🏗️ Arquitetura do Projeto na Nuvem
 
-O sistema é dividido em duas partes principais:
+O ecossistema funciona de forma totalmente serverless (sem depender de nenhuma máquina local) e é dividido em três pilares principais:
 
-1. **Pipeline de Extração (`etl_bcb.py`):** Consome a API OData do Banco Central, coleta o histórico das moedas (**USD, EUR, AUD, GBP, SGD**) desde 2024, realiza a limpeza, remove milissegundos dos horários, padroniza as colunas e exporta tudo para o arquivo `historico_moedas.csv` com codificação correta (`utf-8-sig`).
-2. **Dashboard Interativo (`app.py`):** Lê o arquivo de dados, renderiza gráficos de linhas interativos via **Plotly**, exibe métricas em tempo real e calcula uma linha de tendência (Regressão Linear via NumPy) para projetar o preço dos próximos 5 dias úteis.
+1. **Pipeline de Extração (`script_extracao.py`):** Script em Python que consome a API OData do Banco Central, coleta o histórico das moedas (**USD, EUR, AUD, GBP, SGD**) desde 2024, realiza a limpeza de dados, padroniza as colunas e exporta as informações com codificação correta (`utf-8-sig`).
+2. **Orquestração e Automação (GitHub Actions):** Um robô configurado via arquivo YAML (`main.yml`) que liga um servidor Linux de forma automática **todos os dias às 19:00h (Horário de Brasília)**. Ele executa o script de extração, captura os novos dados do dia e commita a atualização diretamente no repositório.
+3. **Dashboard Interativo (`app.py`):** Interface web desenvolvida em Streamlit que lê a base de dados atualizada diretamente do GitHub, renderiza gráficos de linhas interativos via **Plotly**, exibe métricas de variação e calcula uma linha de tendência (Regressão Linear via NumPy) para projetar o preço dos próximos 5 dias úteis.
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-O ecossistema foi construído puramente em Python com as seguintes bibliotecas:
-* **[Streamlit Cloud](https://streamlit.io):** Hospedagem e publicação da aplicação na nuvem.
-* **[Requests](https://readthedocs.io):** Consumo da API REST/OData do Banco Central.
-* **[Pandas](https://pydata.org):** Limpeza, transformação e manipulação das tabelas temporais.
-* **[Plotly Express](https://plotly.com):** Gráficos interativos e responsivos.
-* **[NumPy](https://numpy.org):** Cálculo de ajuste polinomial (`polyfit`) para as projeções matemáticas.
+* **[GitHub Actions](https://github.com):** Orquestração, agendamento de tarefas (Cron job) e execução do pipeline CI/CD.
+* **[Streamlit Cloud](https://streamlit.io):** Hospedagem, deploy e publicação da aplicação servida ao usuário final.
+* **[Requests](https://requests.readthedocs.io):** Consumo seguro e manipulação de requisições HTTP na API REST/OData do Banco Central.
+* **[Pandas](https://pandas.pydata.org):** Limpeza, transformação, enriquecimento e manipulação de séries temporais.
+* **[Plotly Express](https://plotly.com):** Construção de gráficos dinâmicos, interativos e responsivos.
+* **[NumPy](https://numpy.org):** Execução de cálculos estatísticos de ajuste polinomial (`polyfit`) para as projeções de tendência.
 
 ---
 
@@ -38,18 +43,18 @@ Certifique-se de ter o **Python 3.8 ou superior** instalado em sua máquina.
 1. **Clone o repositório:**
    ```bash
    git clone https://github.com
-   cd seu-repositorio
+   cd dashboard-moedas
    ```
 
 2. **Instale todas as dependências:**
    ```bash
-   pip install requests streamlit pandas plotly numpy
+   pip install -r requirements.txt
    ```
 
-3. **Execute o Pipeline de Dados (ETL):**
-   Rode este comando para buscar os dados do Banco Central e gerar o arquivo CSV local:
+3. **Execute o Pipeline de Dados (ETL) manualmente:**
+   Rode este comando para forçar a busca de dados na API e gerar o arquivo CSV local:
    ```bash
-   python etl_bcb.py
+   python script_extracao.py
    ```
 
 4. **Inicie o Dashboard local do Streamlit:**
@@ -62,21 +67,21 @@ Certifique-se de ter o **Python 3.8 ou superior** instalado em sua máquina.
 
 ---
 
-## 📊 Estrutura dos Dados Gerados
+## 📊 Estrutura dos Dados Gerados (Data Schema)
 
-O arquivo `historico_moedas.csv` gerado pelo pipeline segue rigorosamente a estrutura abaixo:
+O arquivo `historico_moedas.csv` mantido pelo pipeline segue a seguinte estrutura de colunas:
 
-| Coluna | Descrição | Exemplo |
-| :--- | :--- | :--- |
-| `Data_Consulta` | Data da cotação oficial | `2026-09-15` |
-| `Hora_Consulta` | Horário exato formatado (HH:MM:SS) | `13:05:42` |
-| `Ano_Mes` | Agrupamento de período (Ano-Mês) | `2026-09` |
-| `Moeda_Codigo`| Sigla internacional de 3 letras | `USD` |
-| `Moeda_Nome` | Nome amigável da moeda (com acentos) | `Dólar` |
-| `Preco_Compra` | Cotação oficial de compra em BRL | `5.1234` |
-| `Preco_Venda` | Cotação oficial de venda em BRL | `5.1240` |
+| Coluna | Tipo | Descrição | Exemplo |
+| :--- | :--- | :--- | :--- |
+| `Data_Consulta` | Date | Data da cotação oficial obtida da API | `2026-09-15` |
+| `Hora_Consulta` | Time | Horário exato formatado (HH:MM:SS) | `13:05:42` |
+| `Ano_Mes` | String | Agrupamento de período temporal (Ano-Mês) | `2026-09` |
+| `Moeda_Codigo`| String | Sigla internacional de identificação (3 letras) | `USD` |
+| `Moeda_Nome` | String | Nome amigável da moeda tratado com acentuação | `Dólar` |
+| `Preco_Compra` | Float | Cotação oficial de compra da moeda em BRL | `5.1234` |
+| `Preco_Venda` | Float | Cotação oficial de venda da moeda em BRL | `5.1240` |
 
 ---
 
 ## 📝 Nota de Engenharia e Isenção de Responsabilidade
-O modelo de projeção para os próximos 5 dias úteis utiliza uma **Regressão Linear Simples baseada nos últimos 30 registros históricos**. Esta aplicação possui caráter estritamente **educacional e demonstrativo de portfólio técnico**, portanto **não deve ser utilizada em nenhuma hipótese como recomendação real de investimentos ou trading**.
+O modelo de projeção para os próximos 5 dias úteis utiliza uma **Regressão Linear Simples baseada nos últimos 30 registros históricos**. Esta aplicação possui caráter estritamente **educacional e demonstrativo de portfólio técnico**, portanto **não deve ser utilizada em nenhuma hipótese como recomendação real de investimentos, trading ou hedge financeiro**.
