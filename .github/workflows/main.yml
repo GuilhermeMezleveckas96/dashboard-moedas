@@ -1,0 +1,36 @@
+name: Atualizacao Diaria de Moedas do BCB
+
+on:
+  schedule:
+    # Roda todos os dias às 22:00 UTC (19:00 no horário de Brasília)
+    - cron: '0 22 * * *'
+  workflow_dispatch: # Permite que você clique num botão para rodar manualmente sempre que quiser
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout do repositorio
+      uses: actions/checkout@v3
+
+    - name: Configurar o Python no servidor
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Instalar bibliotecas necessarias
+      run: |
+        pip install pandas requests
+
+    - name: Executar Script de Extracao do Banco Central
+      run: |
+        python script_extracao.py
+
+    - name: Salvar alteracoes e dar Push de volta para o GitHub
+      run: |
+        git config --global user.name "GitHub Actions Bot"
+        git config --global user.email "actions@github.com"
+        git add historico_moedas.csv
+        git commit -m "Data: atualizacao automatica das cotacoes [skip ci]" || echo "Nenhuma alteracao para salvar"
+        git push
